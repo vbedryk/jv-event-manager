@@ -14,10 +14,10 @@ public class EventManager {
 
     public void registerListener(EventListener listener) {
         if (listener == null) {
-            throw new IllegalArgumentException("Listener can't be null");
+            throw new IllegalStateException("Listener can't be null");
         }
         if (isShutdown) {
-            throw new IllegalArgumentException("EventManager is shut down");
+            throw new IllegalStateException("EventManager is shut down");
         }
         listeners.add(listener);
     }
@@ -42,7 +42,7 @@ public class EventManager {
                 try {
                     listener.onEvent(event);
                 } catch (Exception e) {
-                    System.out.println("Error notifying listener: " + e.getMessage());
+                    throw new RuntimeException(e);
                 }
             });
         }
